@@ -27,11 +27,15 @@ import {
   LogOut, 
   Key, 
   Shield, 
-  ExternalLink,
-  Layers,
-  Sparkles,
-  Command,
-  X
+  Layers, 
+  Sparkles, 
+  Command, 
+  X,
+  CreditCard,
+  FileCheck,
+  Award,
+  Compass,
+  CheckCircle2
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -99,6 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchDropdownRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const navMenuRef = useRef<HTMLDivElement>(null);
 
   // Keyboard shortcut Ctrl+K / Cmd+K to focus search
   useEffect(() => {
@@ -129,6 +134,9 @@ export const Navbar: React.FC<NavbarProps> = ({
       }
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
         setIsUserMenuOpen(false);
+      }
+      if (navMenuRef.current && !navMenuRef.current.contains(e.target as Node)) {
+        setOpenDropdownMenu(null);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -235,83 +243,88 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header id="main-header" className="sticky top-0 z-[100] bg-slate-900 border-b border-slate-800 text-slate-100 shadow-xl select-none font-sans">
+    <header id="main-header" className="sticky top-0 z-[100] px-2 sm:px-4 pt-2 sm:pt-3 pb-1.5 select-none font-sans bg-slate-950/80 backdrop-blur-md">
       
       {/* ========================================================
-          BARIS ATAS (TOP BAR): Logo Resmi, Core Branding, Search, Quick Tools, Profil
-          Sesuai referensi resmi CoreTax DJP / Portal Nasional
+          WADAH TUNGGAL SATU KOTAK (SINGLE CARD CONTAINER)
+          Menyatu dengan tema gelap slate & emerald SIG Desa
+          Header dan Menu horizontal di dalam satu rounded card elegan
           ======================================================== */}
-      <div className="border-b border-slate-800/80 bg-slate-950/70 px-3 sm:px-6 py-2.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto bg-slate-900/95 backdrop-blur-xl rounded-2xl shadow-2xl shadow-black/40 border border-slate-800 text-slate-100 transition-all">
+        
+        {/* ----------------------------------------------------
+            BARIS ATAS: Logo Resmi, Brand SIG, Search, Utility, Profil
+            ---------------------------------------------------- */}
+        <div className="px-3 sm:px-5 py-2 sm:py-2.5 flex items-center justify-between gap-2 sm:gap-4">
           
-          {/* SISI KIRI: Logo Kementerian/Kabupaten & Core Brand SIG */}
-          <div className="flex items-center gap-3 shrink-0">
-            {/* Logo Instansi Lambang Garuda / Musi Rawas */}
+          {/* SISI KIRI: Logo Instansi & Brand SIG CoreTax Style */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Logo Instansi Lambang Musi Rawas / Desa Beliti Jaya */}
             <div 
               onClick={() => {
                 if (!isOperator && !isOperatorAset && onOpenVillageProfile) {
                   onOpenVillageProfile();
                 }
               }}
-              className="flex items-center gap-2 cursor-pointer hover:opacity-95 transition-opacity"
+              className="flex items-center gap-2 cursor-pointer hover:opacity-90 transition-opacity"
               title="Pemerintah Kabupaten Musi Rawas • Desa Beliti Jaya"
             >
               {desaProfile?.logoDesa ? (
                 <img
                   src={desaProfile.logoDesa}
                   alt={`Logo ${desaProfile.namaDesa}`}
-                  className="h-8 sm:h-9 w-auto object-contain drop-shadow-md"
+                  className="h-8 sm:h-9 w-auto object-contain drop-shadow-xs"
                 />
               ) : (
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-600 via-amber-500 to-yellow-400 p-1 flex items-center justify-center shadow-md">
-                  <Shield className="w-5 h-5 text-slate-950 fill-current" />
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-600 via-amber-500 to-yellow-400 p-1 flex items-center justify-center shadow-xs">
+                  <Shield className="w-5 h-5 text-white fill-current" />
                 </div>
               )}
 
-              {/* Logo SIG Beliti Jaya bergaya CoreTax */}
+              {/* Logo SIG Beliti Jaya bergaya CoreTax Terpadu */}
               <div className="flex items-center">
-                {/* Logo Kotak DJP/SIG Icon */}
-                <div className="flex items-center gap-1 bg-slate-800/80 px-2 py-1 rounded-lg border border-slate-700/80 shadow-inner">
+                {/* Logo Kotak SIG Icon */}
+                <div className="flex items-center gap-1 bg-blue-900/70 px-2 py-0.5 rounded-lg border border-blue-500/40 shadow-xs">
                   <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block shadow-xs"></span>
-                  <span className="font-black tracking-tight text-xs text-white">SIG</span>
+                  <span className="font-black tracking-tight text-xs text-blue-100">SIG</span>
                 </div>
 
                 {/* Divider Tegak */}
-                <div className="h-6 w-px bg-slate-700 mx-2.5"></div>
+                <div className="h-6 w-px bg-slate-700 mx-2 sm:mx-2.5"></div>
 
                 {/* Teks Logo Gaya CORETAX */}
                 <div className="flex items-center text-sm sm:text-base font-extrabold tracking-tight">
                   <span className="text-white font-black">BELITI</span>
-                  <div className="w-3.5 h-3.5 mx-0.5 rounded-full border-2 border-rose-500 flex items-center justify-center">
+                  <div className="w-3.5 h-3.5 mx-1 rounded-full border-2 border-emerald-400 flex items-center justify-center">
                     <div className="w-1.5 h-1.5 rounded-full bg-amber-400"></div>
                   </div>
-                  <span className="text-amber-400 font-black">JAYA</span>
+                  <span className="text-emerald-400 font-black">JAYA</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* BAGIAN TENGAH: Global Quick Search (Cari Layanan / Penduduk / Aset...) */}
-          <div ref={searchDropdownRef} className="flex-1 max-w-xl mx-2 relative hidden md:block">
+          <div ref={searchDropdownRef} className="flex-1 max-w-md lg:max-w-lg mx-1 sm:mx-2 relative hidden md:block">
             <div 
               onClick={() => {
                 setIsSearchOpen(true);
                 searchInputRef.current?.focus();
               }}
-              className="w-full flex items-center bg-slate-900/90 hover:bg-slate-900 text-slate-300 rounded-xl border border-slate-700/80 hover:border-slate-600 px-3.5 py-1.5 transition-all shadow-inner cursor-text group"
+              className="w-full flex items-center bg-slate-950/70 hover:bg-slate-950 text-slate-200 rounded-xl border border-slate-700/80 hover:border-slate-600 px-3 py-1.5 transition-all shadow-inner cursor-text group"
             >
-              <Search className="w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors shrink-0 mr-2.5" />
+              <Search className="w-4 h-4 text-slate-400 group-hover:text-emerald-400 transition-colors shrink-0 mr-2" />
               <input
                 ref={searchInputRef}
                 type="text"
-                placeholder="Cari layanan, NIK warga, nama penduduk, aset desa..."
+                placeholder="Cari layanan, NIK, nama penduduk, aset desa..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   setIsSearchOpen(true);
                 }}
                 onFocus={() => setIsSearchOpen(true)}
-                className="w-full bg-transparent text-xs text-white placeholder-slate-400 focus:outline-none"
+                className="w-full bg-transparent text-xs text-slate-100 placeholder-slate-400 focus:outline-none"
               />
               {searchQuery && (
                 <button 
@@ -319,12 +332,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     e.stopPropagation();
                     setSearchQuery('');
                   }}
-                  className="p-1 text-slate-400 hover:text-white mr-1"
+                  className="p-1 text-slate-400 hover:text-slate-200 mr-1"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
-              <div className="flex items-center gap-1 shrink-0 ml-1.5 bg-slate-800/90 text-[10px] font-mono font-medium px-2 py-0.5 rounded-md border border-slate-700 text-slate-300">
+              <div className="flex items-center gap-1 shrink-0 ml-1.5 bg-slate-800/90 text-[10px] font-mono font-medium px-1.5 py-0.5 rounded border border-slate-700 text-slate-400 shadow-2xs">
                 <span>Ctrl</span>
                 <span>K</span>
               </div>
@@ -337,9 +350,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
-                  className="absolute left-0 right-0 top-full mt-1.5 bg-slate-900 border border-slate-700/90 rounded-2xl shadow-2xl overflow-hidden z-50 text-xs divide-y divide-slate-800"
+                  className="absolute left-0 right-0 top-full mt-1.5 bg-slate-900 border border-slate-700/90 rounded-2xl shadow-2xl overflow-hidden z-50 text-xs divide-y divide-slate-800 text-slate-200 backdrop-blur-xl"
                 >
-                  <div className="p-2.5 bg-slate-950/60 font-semibold text-slate-400 flex items-center justify-between text-[11px]">
+                  <div className="p-2.5 bg-slate-800/80 font-semibold text-slate-300 flex items-center justify-between text-[11px]">
                     <span>Hasil Pencarian Cepat</span>
                     <span className="font-mono text-slate-400 font-normal text-[10px]">
                       {searchResults.families.length + searchResults.assets.length} item ditemukan
@@ -348,7 +361,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
                   {/* Bagian Penduduk */}
                   <div className="max-h-48 overflow-y-auto p-1.5 space-y-1">
-                    <div className="text-[10px] font-bold text-amber-400 px-2 py-0.5 uppercase tracking-wider flex items-center gap-1.5">
+                    <div className="text-[10px] font-bold text-emerald-400 px-2 py-0.5 uppercase tracking-wider flex items-center gap-1.5">
                       <Users className="w-3 h-3" /> Data Penduduk & Kepala Keluarga
                     </div>
                     {searchResults.families.length > 0 ? (
@@ -364,20 +377,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                           className="px-2.5 py-2 hover:bg-slate-800/80 rounded-xl cursor-pointer transition-colors flex items-center justify-between group"
                         >
                           <div>
-                            <div className="font-bold text-white group-hover:text-amber-300 transition-colors">
+                            <div className="font-bold text-slate-100 group-hover:text-emerald-300 transition-colors">
                               {fam.namaKepalaKeluarga}
                             </div>
                             <div className="text-[11px] text-slate-400 font-mono">
                               No. KK: {fam.nomorKk} • {fam.dusun}
                             </div>
                           </div>
-                          <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700/70 font-medium">
                             Lihat di Peta
                           </span>
                         </div>
                       ))
                     ) : (
-                      <div className="text-slate-400 italic px-2 py-1 text-[11px]">
+                      <div className="text-slate-500 italic px-2 py-1 text-[11px]">
                         Tidak ada data penduduk yang cocok.
                       </div>
                     )}
@@ -401,20 +414,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                           className="px-2.5 py-2 hover:bg-slate-800/80 rounded-xl cursor-pointer transition-colors flex items-center justify-between group"
                         >
                           <div>
-                            <div className="font-bold text-white group-hover:text-purple-300 transition-colors">
+                            <div className="font-bold text-slate-100 group-hover:text-purple-300 transition-colors">
                               {aset.namaAset}
                             </div>
                             <div className="text-[11px] text-slate-400">
                               {aset.kategori} • {aset.lokasiDusun}
                             </div>
                           </div>
-                          <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30">
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-700/70 font-medium">
                             Fokus Pin
                           </span>
                         </div>
                       ))
                     ) : (
-                      <div className="text-slate-400 italic px-2 py-1 text-[11px]">
+                      <div className="text-slate-500 italic px-2 py-1 text-[11px]">
                         Tidak ada aset desa yang cocok.
                       </div>
                     )}
@@ -425,25 +438,25 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* SISI KANAN: Bantuan, Tema/Mode, Notifikasi, Bahasa (ID), Pill Profil Resmi, Fullscreen */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             
             {/* Tombol Panduan / Bantuan (?) */}
             <button
               id="btn-header-help"
               type="button"
               onClick={() => setShowHelpModal(true)}
-              className="w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-all cursor-pointer"
+              className="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
               title="Bantuan & Panduan Sistem"
             >
               <HelpCircle className="w-4 h-4" />
             </button>
 
-            {/* Mode Terang/Siang (Sesuai Ikon Matahari CoreTax) */}
+            {/* Mode Terang/Siang */}
             <button
               id="btn-header-theme"
               type="button"
-              onClick={() => alert('Mode Tampilan Sistem: Kontras Tinggi Pemerintahan (Default Dark Theme Aktif).')}
-              className="w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-400 hover:text-amber-300 border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-all cursor-pointer"
+              onClick={() => alert('Mode Tampilan Sistem: Tema Gelap Spasial SIG Pemerintahan')}
+              className="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-amber-400 hover:text-amber-300 border border-slate-700 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
               title="Mode Tampilan Sistem"
             >
               <Sun className="w-4 h-4" />
@@ -454,24 +467,24 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="btn-header-notifications"
               type="button"
               onClick={onOpenNotifications}
-              className="relative w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-all cursor-pointer"
+              className="relative w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
               title="Notifikasi Verifikasi & Perubahan Data"
             >
               <Bell className="w-4 h-4" />
               {pendingCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber-500 text-slate-950 text-[10px] font-bold px-1.5 py-0.2 rounded-full ring-2 ring-slate-950 animate-bounce">
+                <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full ring-2 ring-slate-900 animate-pulse">
                   {pendingCount}
                 </span>
               )}
             </button>
 
             {/* Dropdown Bahasa (🇮🇩 ID) */}
-            <div className="relative">
+            <div className="relative hidden sm:block">
               <button
                 id="btn-header-lang"
                 type="button"
                 onClick={() => setShowLangMenu(!showLangMenu)}
-                className="px-2.5 py-1 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 hover:border-slate-700 flex items-center gap-1.5 text-xs font-semibold transition-all cursor-pointer"
+                className="px-2 py-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 flex items-center gap-1.5 text-xs font-semibold transition-all cursor-pointer shadow-2xs"
                 title="Pilih Bahasa Sistem"
               >
                 <span className="text-sm leading-none">🇮🇩</span>
@@ -480,10 +493,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
 
               {showLangMenu && (
-                <div className="absolute right-0 mt-1 w-32 bg-slate-900 border border-slate-700 rounded-xl shadow-xl z-50 p-1 text-xs">
+                <div className="absolute right-0 mt-1.5 w-36 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 p-1 text-xs">
                   <button
                     onClick={() => setShowLangMenu(false)}
-                    className="w-full text-left px-2.5 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-semibold flex items-center gap-2"
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg bg-emerald-950/70 text-emerald-300 font-semibold flex items-center gap-2 border border-emerald-800/50"
                   >
                     <span>🇮🇩</span> Bahasa Indonesia
                   </button>
@@ -491,40 +504,44 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
-            {/* PILL PROFIL PENGGUNA RESMI (Gaya CoreTax: ID/NIP di atas, NAMA PENGGUNA di bawah, Dropdown Arrow) */}
+            {/* PILL PROFIL PENGGUNA RESMI (ID di atas, NAMA di bawah, Chevron) */}
             <div ref={userMenuRef} className="relative">
               <button
                 id="btn-coretax-user-profile"
                 type="button"
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                className="flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-slate-900/90 hover:bg-slate-850 text-slate-200 border border-slate-700 hover:border-slate-600 transition-all cursor-pointer group shadow-sm text-left active:scale-98"
+                className="flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-100 border border-slate-700 hover:border-slate-600 transition-all cursor-pointer group shadow-xs text-left"
                 title="Klik untuk membuka menu akun & profil pengguna"
               >
                 {/* Avatar Icon */}
-                <div className="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0 overflow-hidden">
-                  <img
-                    src={currentUser.avatar}
-                    alt={currentUser.name}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="w-7 h-7 rounded-full bg-slate-700 border border-slate-600 flex items-center justify-center shrink-0 overflow-hidden text-slate-300">
+                  {currentUser.avatar ? (
+                    <img
+                      src={currentUser.avatar}
+                      alt={currentUser.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <Users className="w-4 h-4 text-slate-300" />
+                  )}
                 </div>
 
                 {/* ID & Nama Pengguna */}
                 <div className="hidden sm:block min-w-0 pr-1">
                   <div className="text-[10px] text-slate-400 font-mono leading-none tracking-tight">
                     {currentUser.role === 'admin' 
-                      ? '1808032508930001 (ADMIN)' 
+                      ? '1808032508930001' 
                       : currentUser.role === 'operator_aset'
-                      ? '1808032508930003 (OP-ASET)'
-                      : '1808032508930006 (OP-KK)'}
+                      ? '1808032508930003'
+                      : '1808032508930006'}
                   </div>
-                  <div className="text-xs font-bold text-white group-hover:text-amber-300 transition-colors uppercase tracking-tight truncate mt-0.5">
+                  <div className="text-xs font-bold text-slate-100 group-hover:text-emerald-400 transition-colors uppercase tracking-tight truncate mt-0.5">
                     {currentUser.name.toUpperCase()}
                   </div>
                 </div>
 
                 {/* Dropdown Chevron */}
-                <ChevronDown className={`w-3.5 h-3.5 text-slate-400 group-hover:text-white transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 text-slate-400 group-hover:text-slate-200 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Popover Menu Profil Pengguna */}
@@ -534,12 +551,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     initial={{ opacity: 0, y: 6, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                    className="absolute right-0 top-full mt-2 w-64 bg-slate-900 border border-slate-700/90 rounded-2xl shadow-2xl p-2 z-50 text-xs divide-y divide-slate-800"
+                    className="absolute right-0 top-full mt-2 w-64 bg-slate-900/98 border border-slate-700/90 rounded-2xl shadow-2xl p-2 z-50 text-xs divide-y divide-slate-800 text-slate-200 backdrop-blur-xl"
                   >
                     {/* Header Info User */}
                     <div className="p-2.5 space-y-1">
                       <div className="font-bold text-white text-sm">{currentUser.name}</div>
-                      <div className="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
+                      <div className="text-[11px] text-emerald-400 font-mono flex items-center gap-1 font-semibold">
                         <ShieldCheck className="w-3.5 h-3.5" />
                         <span>
                           {currentUser.role === 'admin' 
@@ -559,7 +576,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           setIsUserMenuOpen(false);
                           if (onOpenUserProfile) onOpenUserProfile();
                         }}
-                        className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
+                        className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white flex items-center gap-2 transition-colors cursor-pointer"
                       >
                         <Settings className="w-3.5 h-3.5 text-slate-400" />
                         <span>Lihat Profil Pengguna</span>
@@ -571,7 +588,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                             setIsUserMenuOpen(false);
                             onOpenUserSettings();
                           }}
-                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-amber-300 hover:text-amber-200 flex items-center gap-2 transition-colors cursor-pointer"
+                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-amber-950/40 text-amber-300 hover:text-amber-200 flex items-center gap-2 transition-colors cursor-pointer font-medium"
                         >
                           <UserCog className="w-3.5 h-3.5 text-amber-400" />
                           <span>Kelola Akses Pengguna (RBAC)</span>
@@ -584,14 +601,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                             setIsUserMenuOpen(false);
                             onOpenAuthLogs();
                           }}
-                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-200 hover:text-white flex items-center justify-between transition-colors cursor-pointer"
+                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-between transition-colors cursor-pointer"
                         >
                           <span className="flex items-center gap-2">
                             <History className="w-3.5 h-3.5 text-slate-400" />
                             <span>Log Riwayat Login</span>
                           </span>
                           {authLogsCount && authLogsCount > 0 ? (
-                            <span className="px-1.5 py-0.2 rounded-full bg-slate-800 text-amber-400 text-[10px] font-mono border border-slate-700">
+                            <span className="px-1.5 py-0.2 rounded-full bg-slate-800 text-blue-400 text-[10px] font-mono border border-slate-700">
                               {authLogsCount}
                             </span>
                           ) : null}
@@ -604,7 +621,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                             setIsUserMenuOpen(false);
                             onOpenKiosk();
                           }}
-                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-500/15 text-emerald-300 flex items-center gap-2 transition-colors cursor-pointer"
+                          className="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-950/40 text-emerald-300 hover:text-emerald-200 flex items-center gap-2 transition-colors cursor-pointer font-medium"
                         >
                           <Tv className="w-3.5 h-3.5 text-emerald-400" />
                           <span>Mode KIOSK Layar Sentuh</span>
@@ -619,7 +636,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           setIsUserMenuOpen(false);
                           if (onLogout) onLogout();
                         }}
-                        className="w-full text-left px-3 py-2 rounded-xl hover:bg-rose-500/15 text-rose-300 hover:text-rose-200 flex items-center gap-2 transition-colors cursor-pointer font-semibold"
+                        className="w-full text-left px-3 py-2 rounded-xl hover:bg-rose-950/50 text-rose-400 hover:text-rose-300 flex items-center gap-2 transition-colors cursor-pointer font-semibold"
                       >
                         <LogOut className="w-3.5 h-3.5 text-rose-400" />
                         <span>Keluar Sistem (Logout)</span>
@@ -635,7 +652,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               id="btn-header-fullscreen"
               type="button"
               onClick={toggleFullscreen}
-              className="w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 flex items-center justify-center transition-all cursor-pointer hidden sm:flex"
+              className="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center justify-center transition-all cursor-pointer shadow-2xs hidden sm:flex"
               title={isFullscreen ? 'Keluar Mode Layar Penuh' : 'Mode Layar Penuh (Fullscreen)'}
             >
               {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -644,165 +661,480 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
         </div>
-      </div>
 
-      {/* ========================================================
-          BARIS BAWAH (NAVIGATION BAR MENU HORIZONTAL)
-          Tombol Menu Navigasi Terpusat (Center Balanced):
-          1. Portal Peta GIS
-          2. Dashboard Analitik
-          3. Kependudukan
-          4. Buku Inventaris
-          5. Cetak & Enkripsi
-          6. Data Desa
-          (Efek aktif: Warna Hijau / Emerald)
-          ======================================================== */}
-      <div className="bg-slate-900 border-b border-slate-800/90 px-3 sm:px-6 py-2 overflow-x-auto scrollbar-none shadow-inner">
-        <div className="max-w-7xl mx-auto flex items-center justify-center flex-wrap gap-2 sm:gap-2.5">
+        {/* ----------------------------------------------------
+            GARIS PEMBAGI HORIZONTAL DI DALAM SATU KOTAK
+            Pembatas tipis antara header dan menu
+            ---------------------------------------------------- */}
+        <div className="border-t border-slate-800 mx-3 sm:mx-5"></div>
+
+        {/* ----------------------------------------------------
+            BARIS BAWAH: Deretan Menu Horizontal Sesuai Format CoreTax
+            Format: [Icon Colorful] [Nama Menu] [Chevron Down v]
+            ---------------------------------------------------- */}
+        <div ref={navMenuRef} className="px-3 sm:px-5 py-1.5 sm:py-2 flex items-center justify-start flex-nowrap sm:flex-wrap gap-1 sm:gap-2 overflow-x-auto scrollbar-none text-xs font-semibold">
           
           {/* 1. Portal Peta GIS */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               id="menu-nav-portal"
               type="button"
               onClick={() => handleTabClick('map')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setOpenDropdownMenu(openDropdownMenu === 'portal' ? null : 'portal');
+              }}
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === 'map'
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-950/60 border border-emerald-400/60 ring-2 ring-emerald-500/40 scale-[1.02]'
-                  : 'bg-slate-800/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 hover:border-slate-600/80 font-medium'
+                  ? 'bg-emerald-500/15 text-emerald-300 font-bold border border-emerald-500/30 shadow-xs'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/70 border border-transparent font-medium'
               }`}
               title="Portal Peta Spasial GIS Interaktif"
             >
-              <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 shadow-xs ${
-                activeTab === 'map' ? 'bg-white/20 text-white' : 'bg-blue-600 text-white'
-              }`}>
-                <Map className="w-2.5 h-2.5" />
+              <div className="w-4 h-4 rounded flex items-center justify-center text-emerald-400">
+                <Map className="w-3.5 h-3.5 text-emerald-400" />
               </div>
               <span>Portal Peta GIS</span>
-              {activeTab === 'map' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-200 animate-pulse shrink-0" />}
+              <span 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenDropdownMenu(openDropdownMenu === 'portal' ? null : 'portal');
+                }}
+                className="p-0.5 hover:bg-slate-700/60 rounded"
+              >
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </span>
             </button>
+
+            {/* Dropdown Menu Portal */}
+            {openDropdownMenu === 'portal' && (
+              <div className="absolute left-0 top-full mt-1.5 w-52 bg-slate-900/98 border border-slate-700/90 rounded-xl shadow-2xl z-50 p-1.5 text-xs text-slate-200 backdrop-blur-xl">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Modul Peta GIS</div>
+                <button
+                  onClick={() => {
+                    handleTabClick('map');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Map className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Peta Spasial Utama</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleTabClick('map');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Compass className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Sebaran Dusun I - IV</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* 2. Dashboard Analitik */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               id="menu-nav-analytics"
               type="button"
               onClick={() => handleTabClick('analytics')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === 'analytics'
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-950/60 border border-emerald-400/60 ring-2 ring-emerald-500/40 scale-[1.02]'
-                  : 'bg-slate-800/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 hover:border-slate-600/80 font-medium'
+                  ? 'bg-amber-500/15 text-amber-300 font-bold border border-amber-500/30 shadow-xs'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/70 border border-transparent font-medium'
               }`}
-              title="Statistik Demografi, Bansos, dan Analitik Aset Desa"
+              title="Statistik Demografi & Grafik Bantuan Sosial"
             >
-              <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 shadow-xs ${
-                activeTab === 'analytics' ? 'bg-white/20 text-white' : 'bg-cyan-600 text-white'
-              }`}>
-                <BarChart3 className="w-2.5 h-2.5" />
+              <div className="w-4 h-4 rounded flex items-center justify-center text-amber-400">
+                <BarChart3 className="w-3.5 h-3.5 text-amber-400" />
               </div>
-              <span>Dashboard Analitik</span>
-              {activeTab === 'analytics' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-200 animate-pulse shrink-0" />}
+              <span>Statistik & Analitik</span>
+              <span 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenDropdownMenu(openDropdownMenu === 'analytics' ? null : 'analytics');
+                }}
+                className="p-0.5 hover:bg-slate-700/60 rounded"
+              >
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </span>
             </button>
+
+            {/* Dropdown Analitik */}
+            {openDropdownMenu === 'analytics' && (
+              <div className="absolute left-0 top-full mt-1.5 w-52 bg-slate-900/98 border border-slate-700/90 rounded-xl shadow-2xl z-50 p-1.5 text-xs text-slate-200 backdrop-blur-xl">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Modul Analitik</div>
+                <button
+                  onClick={() => {
+                    handleTabClick('analytics');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <BarChart3 className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Ringkasan Statistik</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleTabClick('analytics');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Layers className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Grafik Bansos & Demografi</span>
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* 3. Kependudukan */}
-          <div className="relative">
+          {/* 3. Data Kependudukan */}
+          <div className="relative shrink-0">
             <button
               id="menu-nav-crud"
               type="button"
               onClick={() => handleTabClick('crud')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === 'crud'
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-950/60 border border-emerald-400/60 ring-2 ring-emerald-500/40 scale-[1.02]'
-                  : 'bg-slate-800/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 hover:border-slate-600/80 font-medium'
+                  ? 'bg-cyan-500/15 text-cyan-300 font-bold border border-cyan-500/30 shadow-xs'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/70 border border-transparent font-medium'
               }`}
-              title={isOperatorAset ? 'Terkunci untuk Operator Aset' : 'Kelola Data Kepala Keluarga & Penduduk'}
+              title={isOperatorAset ? 'Terkunci untuk Operator Aset' : 'Data Penduduk, KK, dan Bansos'}
             >
-              <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 shadow-xs ${
-                activeTab === 'crud' ? 'bg-white/20 text-white' : 'bg-amber-500 text-slate-950 font-bold'
-              }`}>
-                <Users className="w-2.5 h-2.5" />
+              <div className="w-4 h-4 rounded flex items-center justify-center text-cyan-400">
+                <CreditCard className="w-3.5 h-3.5 text-cyan-400" />
               </div>
               <span>Kependudukan</span>
               {isOperatorAset ? (
                 <Lock className="w-3 h-3 text-rose-400" />
-              ) : activeTab === 'crud' ? (
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-200 animate-pulse shrink-0" />
-              ) : null}
+              ) : (
+                <span 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenDropdownMenu(openDropdownMenu === 'crud' ? null : 'crud');
+                  }}
+                  className="p-0.5 hover:bg-slate-700/60 rounded"
+                >
+                  <ChevronDown className="w-3 h-3 text-slate-400" />
+                </span>
+              )}
             </button>
+
+            {/* Dropdown Kependudukan */}
+            {openDropdownMenu === 'crud' && (
+              <div className="absolute left-0 top-full mt-1.5 w-56 bg-slate-900/98 border border-slate-700/90 rounded-xl shadow-2xl z-50 p-1.5 text-xs text-slate-200 backdrop-blur-xl">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Modul Kependudukan</div>
+                <button
+                  onClick={() => {
+                    handleTabClick('crud');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Users className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Daftar Kartu Keluarga (KK)</span>
+                </button>
+                <button
+                  onClick={() => {
+                    onOpenNotifications();
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center justify-between text-slate-300 hover:text-white"
+                >
+                  <span className="flex items-center gap-2">
+                    <FileCheck className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Verifikasi Data Masuk</span>
+                  </span>
+                  {pendingCount > 0 && (
+                    <span className="px-1.5 py-0.2 rounded-full bg-rose-950 text-rose-300 border border-rose-700/60 font-bold text-[10px]">
+                      {pendingCount}
+                    </span>
+                  )}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* 4. Buku Inventaris */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               id="menu-nav-aset"
               type="button"
               onClick={() => handleTabClick('inventory')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === 'inventory'
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-950/60 border border-emerald-400/60 ring-2 ring-emerald-500/40 scale-[1.02]'
-                  : 'bg-slate-800/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 hover:border-slate-600/80 font-medium'
+                  ? 'bg-indigo-500/15 text-indigo-300 font-bold border border-indigo-500/30 shadow-xs'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/70 border border-transparent font-medium'
               }`}
               title="Buku Inventaris Aset Desa (Pembangunan & Non Pembangunan)"
             >
-              <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 shadow-xs ${
-                activeTab === 'inventory' ? 'bg-white/20 text-white' : 'bg-purple-600 text-white'
-              }`}>
-                <BookOpen className="w-2.5 h-2.5" />
+              <div className="w-4 h-4 rounded flex items-center justify-center text-indigo-400">
+                <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
               </div>
               <span>Buku Inventaris</span>
-              {activeTab === 'inventory' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-200 animate-pulse shrink-0" />}
+              <span 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenDropdownMenu(openDropdownMenu === 'inventory' ? null : 'inventory');
+                }}
+                className="p-0.5 hover:bg-slate-700/60 rounded"
+              >
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </span>
             </button>
+
+            {/* Dropdown Inventaris */}
+            {openDropdownMenu === 'inventory' && (
+              <div className="absolute left-0 top-full mt-1.5 w-60 bg-slate-900/98 border border-slate-700/90 rounded-xl shadow-2xl z-50 p-1.5 text-xs text-slate-200 backdrop-blur-xl">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Kategori Inventaris</div>
+                <button
+                  onClick={() => {
+                    if (onOpenAssetModal) onOpenAssetModal('all');
+                    else setActiveTab('inventory');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  <span>Semua Aset Desa</span>
+                </button>
+                <button
+                  onClick={() => {
+                    if (onOpenAssetModal) onOpenAssetModal('pembangunan');
+                    else setActiveTab('inventory');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Building2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Aset Fisik & Pembangunan</span>
+                </button>
+                <button
+                  onClick={() => {
+                    if (onOpenAssetModal) onOpenAssetModal('non_pembangunan');
+                    else setActiveTab('inventory');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Award className="w-3.5 h-3.5 text-purple-400" />
+                  <span>Aset Non-Pembangunan / Kantor</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* 5. Cetak & Enkripsi */}
-          <div className="relative">
+          <div className="relative shrink-0">
             <button
               id="menu-nav-export"
               type="button"
               onClick={() => handleTabClick('export')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === 'export'
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-950/60 border border-emerald-400/60 ring-2 ring-emerald-500/40 scale-[1.02]'
-                  : 'bg-slate-800/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 hover:border-slate-600/80 font-medium'
+                  ? 'bg-sky-500/15 text-sky-300 font-bold border border-sky-500/30 shadow-xs'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/70 border border-transparent font-medium'
               }`}
-              title="Cetak Laporan Kependudukan & Backup AES-256"
+              title="Cetak Laporan PDF Resmi & Ekspor Excel"
             >
-              <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 shadow-xs ${
-                activeTab === 'export' ? 'bg-white/20 text-white' : 'bg-emerald-600 text-white'
-              }`}>
-                <FileText className="w-2.5 h-2.5" />
+              <div className="w-4 h-4 rounded flex items-center justify-center text-sky-400">
+                <FileText className="w-3.5 h-3.5 text-sky-400" />
               </div>
               <span>Cetak & Enkripsi</span>
-              {activeTab === 'export' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-200 animate-pulse shrink-0" />}
+              <span 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenDropdownMenu(openDropdownMenu === 'export' ? null : 'export');
+                }}
+                className="p-0.5 hover:bg-slate-700/60 rounded"
+              >
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </span>
             </button>
+
+            {/* Dropdown Cetak & Enkripsi */}
+            {openDropdownMenu === 'export' && (
+              <div className="absolute left-0 top-full mt-1.5 w-52 bg-slate-900/98 border border-slate-700/90 rounded-xl shadow-2xl z-50 p-1.5 text-xs text-slate-200 backdrop-blur-xl">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Format Laporan</div>
+                <button
+                  onClick={() => {
+                    handleTabClick('export');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <FileText className="w-3.5 h-3.5 text-rose-400" />
+                  <span>Cetak Dokumen PDF Resmi</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleTabClick('export');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Database className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Ekspor Data Excel (.xlsx)</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleTabClick('export');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Backup Enkripsi AES-256</span>
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* 6. Data Desa */}
-          <div className="relative">
+          {/* 6. Profil Desa */}
+          <div className="relative shrink-0">
             <button
               id="menu-nav-village"
               type="button"
               onClick={() => handleTabClick('village')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === 'village'
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-lg shadow-emerald-950/60 border border-emerald-400/60 ring-2 ring-emerald-500/40 scale-[1.02]'
-                  : 'bg-slate-800/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 hover:border-slate-600/80 font-medium'
+                  ? 'bg-teal-500/15 text-teal-300 font-bold border border-teal-500/30 shadow-xs'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/70 border border-transparent font-medium'
               }`}
               title="Data Wilayah, Kepala Desa, dan Perangkat Desa"
             >
-              <div className={`w-4 h-4 rounded-md flex items-center justify-center shrink-0 shadow-xs ${
-                activeTab === 'village' ? 'bg-white/20 text-white' : 'bg-teal-600 text-white'
-              }`}>
-                <Building2 className="w-2.5 h-2.5" />
+              <div className="w-4 h-4 rounded flex items-center justify-center text-teal-400">
+                <Building2 className="w-3.5 h-3.5 text-teal-400" />
               </div>
               <span>Data Desa</span>
-              {activeTab === 'village' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-200 animate-pulse shrink-0" />}
+              <span 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenDropdownMenu(openDropdownMenu === 'village' ? null : 'village');
+                }}
+                className="p-0.5 hover:bg-slate-700/60 rounded"
+              >
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </span>
             </button>
+
+            {/* Dropdown Data Desa */}
+            {openDropdownMenu === 'village' && (
+              <div className="absolute left-0 top-full mt-1.5 w-56 bg-slate-900/98 border border-slate-700/90 rounded-xl shadow-2xl z-50 p-1.5 text-xs text-slate-200 backdrop-blur-xl">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Informasi Pemerintahan</div>
+                <button
+                  onClick={() => {
+                    if (onOpenVillageInfo) onOpenVillageInfo('profil');
+                    else handleTabClick('village');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Building2 className="w-3.5 h-3.5 text-teal-400" />
+                  <span>Profil & Wilayah Desa</span>
+                </button>
+                <button
+                  onClick={() => {
+                    if (onOpenVillageInfo) onOpenVillageInfo('pimpinan');
+                    else handleTabClick('village');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Users className="w-3.5 h-3.5 text-blue-400" />
+                  <span>Kepala Desa & Perangkat</span>
+                </button>
+                <button
+                  onClick={() => {
+                    if (onOpenVillageInfo) onOpenVillageInfo('struktur');
+                    else handleTabClick('village');
+                    setOpenDropdownMenu(null);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                >
+                  <Layers className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Struktur Organisasi</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* 7. Manajemen Akses */}
+          <div className="relative shrink-0">
+            <button
+              id="menu-nav-settings"
+              type="button"
+              onClick={() => handleTabClick('settings')}
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap ${
+                activeTab === 'settings'
+                  ? 'bg-purple-500/15 text-purple-300 font-bold border border-purple-500/30 shadow-xs'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/70 border border-transparent font-medium'
+              }`}
+              title="Pengaturan Hak Akses Pengguna & RBAC"
+            >
+              <div className="w-4 h-4 rounded flex items-center justify-center text-purple-400">
+                <Key className="w-3.5 h-3.5 text-purple-400" />
+              </div>
+              <span>Manajemen Akses</span>
+              <span 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenDropdownMenu(openDropdownMenu === 'access' ? null : 'access');
+                }}
+                className="p-0.5 hover:bg-slate-700/60 rounded"
+              >
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </span>
+            </button>
+
+            {/* Dropdown Manajemen Akses */}
+            {openDropdownMenu === 'access' && (
+              <div className="absolute right-0 sm:left-0 top-full mt-1.5 w-60 bg-slate-900/98 border border-slate-700/90 rounded-xl shadow-2xl z-50 p-1.5 text-xs text-slate-200 backdrop-blur-xl">
+                <div className="px-2.5 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Akses & Keamanan</div>
+                {isAdmin && (
+                  <button
+                    onClick={() => {
+                      if (onOpenUserSettings) onOpenUserSettings();
+                      setOpenDropdownMenu(null);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                  >
+                    <UserCog className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Kelola Pengguna & Role (RBAC)</span>
+                  </button>
+                )}
+                {onOpenAuthLogs && (
+                  <button
+                    onClick={() => {
+                      onOpenAuthLogs();
+                      setOpenDropdownMenu(null);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                  >
+                    <History className="w-3.5 h-3.5 text-blue-400" />
+                    <span>Log Riwayat Aktivitas Login</span>
+                  </button>
+                )}
+                {!isOperator && onOpenKiosk && (
+                  <button
+                    onClick={() => {
+                      onOpenKiosk();
+                      setOpenDropdownMenu(null);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-800 flex items-center gap-2 text-slate-300 hover:text-white"
+                  >
+                    <Tv className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Mode KIOSK Layar Sentuh</span>
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
         </div>
+
       </div>
 
       {/* MODAL PANDUAN & BANTUAN SISTEM (?) */}
@@ -817,17 +1149,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-slate-900 border border-slate-700 max-w-lg w-full rounded-2xl shadow-2xl p-6 text-slate-200 space-y-4"
+              className="bg-slate-900 border border-slate-700 max-w-lg w-full rounded-2xl shadow-2xl p-6 text-slate-300 space-y-4"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                  <div className="p-2 rounded-xl bg-blue-950/70 text-blue-400 border border-blue-800/60">
                     <HelpCircle className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-base">Panduan Navigasi Sistem</h3>
-                    <p className="text-xs text-slate-400">SIG Terpadu Desa Beliti Jaya (Core Portal)</p>
+                    <h3 className="font-bold text-white text-base">Panduan Navigasi Satu Pintu</h3>
+                    <p className="text-xs text-slate-400">SIG Terpadu Desa Beliti Jaya (Format Terpadu)</p>
                   </div>
                 </div>
                 <button
@@ -839,35 +1171,35 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
 
               <div className="text-xs space-y-3 leading-relaxed text-slate-300">
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-                  <div className="font-bold text-amber-400 flex items-center gap-1.5">
-                    <Command className="w-3.5 h-3.5" />
-                    <span>Pencarian Global Instan (Ctrl + K)</span>
-                  </div>
-                  <p>Gunakan kotak pencarian di bagian atas atau tekan tombol kombinasi <strong>Ctrl + K</strong> untuk mencari nama warga, NIK kependudukan, No. Kartu Keluarga, atau aset desa secara cepat.</p>
-                </div>
-
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
+                <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
                   <div className="font-bold text-emerald-400 flex items-center gap-1.5">
-                    <Layers className="w-3.5 h-3.5" />
-                    <span>Struktur Menu Navigasi Berjenjang</span>
+                    <Command className="w-3.5 h-3.5" />
+                    <span>Pencarian Global Terpadu (Ctrl + K)</span>
                   </div>
-                  <p>Baris navigasi menyediakan akses langsung ke modul utama: Portal Peta GIS, Dashboard Analitik, Kependudukan, Buku Inventaris, Cetak & Enkripsi, dan Data Desa.</p>
+                  <p className="text-slate-400">Ketik langsung nama warga, NIK kependudukan, Nomor KK, atau inventaris aset desa di kotak pencarian bagian atas.</p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
-                  <div className="font-bold text-cyan-400 flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Pill Akun & Pengaturan Pengguna</span>
+                <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
+                  <div className="font-bold text-blue-400 flex items-center gap-1.5">
+                    <Layers className="w-3.5 h-3.5" />
+                    <span>Menu Navigasi Terpadu (Satu Kotak)</span>
                   </div>
-                  <p>Klik nama akun Anda di pojok kanan atas untuk memeriksa NIP/Role, membuka log aktivitas riwayat login, atau mengaktifkan mode KIOSK layar sentuh.</p>
+                  <p className="text-slate-400">Heder dan Menu telah dipadukan dalam satu wadah berbingkai elegan untuk akses cepat: Peta Spasial, Statistik Analitik, Data Kependudukan, Buku Inventaris, Cetak Laporan, Data Desa, dan Manajemen Akses.</p>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/80 space-y-1">
+                  <div className="font-bold text-amber-400 flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>Pill Akun Resmi Pengguna</span>
+                  </div>
+                  <p className="text-slate-400">Klik nama akun Anda di sebelah kanan atas untuk mengakses rincian profil, manajemen RBAC, riwayat login, atau keluar sistem.</p>
                 </div>
               </div>
 
               <div className="pt-2 flex justify-end">
                 <button
                   onClick={() => setShowHelpModal(false)}
-                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors cursor-pointer shadow-xs"
                 >
                   Mengerti & Tutup
                 </button>

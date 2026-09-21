@@ -485,6 +485,7 @@ export default function App() {
           }}
           onOpenUserProfile={() => setIsUserInfoOpen(true)}
           onOpenAssetModal={handleOpenAssetModal}
+          onOpenVillageInfo={handleOpenVillageInfo}
           keluargaList={keluargaList}
           asetList={asetList}
           onSelectSearchedKeluarga={(kel) => {
