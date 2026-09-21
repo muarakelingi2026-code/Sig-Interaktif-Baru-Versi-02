@@ -1,0 +1,6 @@
+{
+  "name": "SIG Desa Beliti Jaya - GIS Kependudukan & Bansos",
+  "description": "Sistem Informasi Geografis Peta Interaktif Data Kependudukan, Keluarga, dan Pemantauan Bantuan Sosial Desa Beliti Jaya, Kec. Muara Kelingi, Kab. Musi Rawas, Sumatera Selatan.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
